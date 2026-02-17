@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { AlertCircle, ExternalLink, FileText, Loader2, Send } from 'lucide-react';
 
 function App() {
-    const [description, setDescription] = useState(
-        "My Ola S1X scooter purchased on August 15, 2024, had a hub motor failure. It has been stuck at the Bithauli, Lucknow service center since November 1, 2025, with no repairs done."
-    );
+    const [description, setDescription] = useState("");
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
