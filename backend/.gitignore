@@ -1,0 +1,10 @@
+# Backend .gitignore
+node_modules/
+.env
+*.log
+debug_output*.txt
+output.txt
+models.json
+available_models*.txt
+valid_models.txt
+working_model.txt
