@@ -58,11 +58,15 @@ app.post('/api/analyze', async (req, res) => {
       generationConfig: { responseMimeType: "application/json" }
     });
 
-    const prompt = `You are an expert Indian Consumer Rights legal advisor. Analyze the user's problem and output ONLY a raw JSON object following this exact schema:
+    const prompt = `You are an expert Indian Consumer Rights legal advisor. Analyze the user's problem and output ONLY a raw JSON object following this exact schema.
+    IMPORTANT: Provide at least 3 relevant grievance redressal portals (e.g., General consumer forum, specific ministry portal, and state-level portal).
+    
     {
       "urgencyLevel": "High | Medium | Low",
       "suggestedPortals": [
-        { "name": "Portal Name (e.g., PGPortal, Jansunwai)", "url": "https://...", "reason": "Short reason" }
+        { "name": "Portal Name 1", "url": "https://...", "reason": "Why this portal is relevant" },
+        { "name": "Portal Name 2", "url": "https://...", "reason": "Alternative option" },
+        { "name": "Portal Name 3", "url": "https://...", "reason": "Another option" }
       ],
       "documentsAndDraft": {
         "checklist": ["Doc 1", "Doc 2"],
@@ -100,11 +104,20 @@ app.post('/api/analyze', async (req, res) => {
 });
 
 // Start server and check models
-app.listen(PORT, async () => {
+const server = app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
   await findWorkingModel();
   console.log(`Server ready. Active Model: ${activeModelName}`);
 });
+
+server.on('error', (e) => {
+  console.error('Server startup error:', e);
+});
+
+// Hack to keep process alive if something is closing it unexpectedly
+setInterval(() => {
+  // Keep alive
+}, 10000);
 
 // Create a robust error handler to prevent crashing
 process.on('uncaughtException', (err) => {
