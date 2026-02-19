@@ -105,3 +105,14 @@ app.listen(PORT, async () => {
   await findWorkingModel();
   console.log(`Server ready. Active Model: ${activeModelName}`);
 });
+
+// Create a robust error handler to prevent crashing
+process.on('uncaughtException', (err) => {
+  console.error('CRITICAL ERROR: Uncaught Exception:', err);
+  // Keep the server running
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('CRITICAL ERROR: Unhandled Rejection at:', promise, 'reason:', reason);
+  // Keep the server running
+});
